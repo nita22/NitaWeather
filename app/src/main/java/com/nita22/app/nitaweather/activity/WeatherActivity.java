@@ -22,6 +22,9 @@ import com.nita22.app.nitaweather.util.Utility;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 public class WeatherActivity extends Activity implements View.OnClickListener{
 
     private LinearLayout weatherInfoLayout;
@@ -63,6 +66,11 @@ public class WeatherActivity extends Activity implements View.OnClickListener{
     }
 
     private void queryCityCode(String countyName){
+        try {
+            countyName = URLEncoder.encode(countyName, "utf-8");
+        } catch (UnsupportedEncodingException e1) {
+            e1.printStackTrace();
+        }
         String address = "http://apistore.baidu.com/microservice/cityinfo?cityname=" + countyName;
         queryFromServer(address, "countyCode");
     }
