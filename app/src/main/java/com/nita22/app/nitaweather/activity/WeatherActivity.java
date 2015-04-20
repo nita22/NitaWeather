@@ -110,9 +110,9 @@ public class WeatherActivity extends Activity implements View.OnClickListener{
                 finish();
                 break;
             case R.id.refresh_weather:
-                publishText.setText("同步中...");
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-                String weatherCode = prefs.getString("county_code", "");
+                String weatherCode = prefs.getString("city_name", "");
+                publishText.setText("同步中...");
                 if(!TextUtils.isEmpty(weatherCode)){
                     queryWeatherInfo(weatherCode);
                 }

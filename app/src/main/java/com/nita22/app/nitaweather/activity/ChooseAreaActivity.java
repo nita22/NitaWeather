@@ -48,6 +48,7 @@ public class ChooseAreaActivity extends Activity{
                     intent.putExtra("county_code", inputText);
                     startActivity(intent);
                     finish();
+                    return;
                 }else{
                     Toast.makeText(ChooseAreaActivity.this, "城市不能为空", Toast.LENGTH_SHORT).show();
                 }
