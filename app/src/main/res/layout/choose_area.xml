@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="#484E61">
@@ -15,8 +15,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:textColor="#fff"
-            android:textSize="24sp"/>
-    </LinearLayout>
+            android:textSize="24sp" />
+    </RelativeLayout>
 
     <TableLayout
         android:layout_width="wrap_content"
