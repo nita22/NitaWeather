@@ -20,6 +20,8 @@
             </intent-filter>
 
         </activity>
+
+        <activity android:name="com.nita22.app.nitaweather.activity.WeatherActivity"></activity>
         </application>
 
 </manifest>
