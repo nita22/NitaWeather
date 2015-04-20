@@ -42,35 +42,21 @@ public class WeatherActivity extends Activity {
             publishText.setText("同步中...");
             weatherInfoLayout.setVisibility(View.INVISIBLE);
             cityNameText.setVisibility(View.INVISIBLE);
-            queryWeatherCode(countyCode);
+            queryWeatherInfo(countyCode);
         }else{
             showWeather();
         }
     }
 
-    private void queryWeatherCode(String countyCode){
-        String address = "http://www.weather.com.cn/data/list3/city" + countyCode + ".xml";
-        queryFromServer(address, "countyCode");
-    }
-
     private void queryWeatherInfo(String weatherCode){
-        String address = "http://www.weather.com.cn/data/cityinfo/" + weatherCode + ".html";
-        queryFromServer(address, "weatherCode");
+        String address = "http://apistore.baidu.com/microservice/weather?citypinyin=" + weatherCode;
+        queryFromServer(address);
     }
 
-    private void queryFromServer(final String address, final String type){
+    private void queryFromServer(final String address){
         HttpUtil.sendHttpRequest(address, new HttpCallbackListener() {
             @Override
             public void onFinish(String response) {
-                if("countyCode".equals(type)){
-                    if(!TextUtils.isEmpty(response)){
-                        String[] array = response.split("\\|");
-                        if(array != null && array.length == 2){
-                            String weatherCode = array[1];
-                            queryWeatherInfo(weatherCode);
-                        }
-                    }
-                }else if("weatherCode".equals(type)){
                     Utility.handleWeatherResponse(WeatherActivity.this, response);
                     runOnUiThread(new Runnable() {
                         @Override
@@ -78,7 +64,6 @@ public class WeatherActivity extends Activity {
                             showWeather();
                         }
                     });
-                }
             }
 
             @Override
@@ -96,11 +81,11 @@ public class WeatherActivity extends Activity {
     private void showWeather(){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         cityNameText.setText(prefs.getString("city_name",""));
-        temp1Text.setText(prefs.getString("temp1", ""));
-        temp2Text.setText(prefs.getString("temp2", ""));
+        temp1Text.setText(prefs.getString("temp1", "") + "°C");
+        temp2Text.setText(prefs.getString("temp2", "") + "°C");
         weatherDespText.setText(prefs.getString("weather_desp", ""));
-        publishText.setText(prefs.getString("publish_time", "") + "发布");
-        currentDateText.setText(prefs.getString("今天" + "current_date", ""));
+        publishText.setText("今天" + prefs.getString("publish_time", "") + "发布");
+        currentDateText.setText(prefs.getString("current_date", ""));
         weatherInfoLayout.setVisibility(View.VISIBLE);
         cityNameText.setVisibility(View.VISIBLE);
     }
