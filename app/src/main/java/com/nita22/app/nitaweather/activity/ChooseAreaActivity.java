@@ -45,7 +45,7 @@ public class ChooseAreaActivity extends Activity{
                 String inputText = editText.getText().toString();
                 if (!TextUtils.isEmpty(inputText)) {
                     Intent intent = new Intent(ChooseAreaActivity.this, WeatherActivity.class);
-                    intent.putExtra("county_code", inputText);
+                    intent.putExtra("county_name", inputText);
                     startActivity(intent);
                     finish();
                     return;

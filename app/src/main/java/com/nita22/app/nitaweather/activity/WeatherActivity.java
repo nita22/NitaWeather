@@ -19,6 +19,9 @@ import com.nita22.app.nitaweather.util.HttpCallbackListener;
 import com.nita22.app.nitaweather.util.HttpUtil;
 import com.nita22.app.nitaweather.util.Utility;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class WeatherActivity extends Activity implements View.OnClickListener{
 
     private LinearLayout weatherInfoLayout;
@@ -28,6 +31,7 @@ public class WeatherActivity extends Activity implements View.OnClickListener{
     private TextView temp1Text;
     private TextView temp2Text;
     private TextView currentDateText;
+    private TextView currenttemp;
     private Button switchCity;
     private Button refreshWeather;
 
@@ -44,28 +48,44 @@ public class WeatherActivity extends Activity implements View.OnClickListener{
         currentDateText = (TextView)findViewById(R.id.current_date);
         switchCity = (Button)findViewById(R.id.switch_city);
         refreshWeather = (Button)findViewById(R.id.refresh_weather);
+        currenttemp = (TextView)findViewById(R.id.current_temp);
         switchCity.setOnClickListener(this);
         refreshWeather.setOnClickListener(this);
-        String countyCode = getIntent().getStringExtra("county_code");
-        if(!TextUtils.isEmpty(countyCode)){
+        String countyName = getIntent().getStringExtra("county_name");
+        if(!TextUtils.isEmpty(countyName)){
             publishText.setText("同步中...");
             weatherInfoLayout.setVisibility(View.INVISIBLE);
             cityNameText.setVisibility(View.INVISIBLE);
-            queryWeatherInfo(countyCode);
+            queryCityCode(countyName);
         }else{
             showWeather();
         }
     }
 
-    private void queryWeatherInfo(String weatherCode){
-        String address = "http://apistore.baidu.com/microservice/weather?citypinyin=" + weatherCode;
-        queryFromServer(address);
+    private void queryCityCode(String countyName){
+        String address = "http://apistore.baidu.com/microservice/cityinfo?cityname=" + countyName;
+        queryFromServer(address, "countyCode");
     }
 
-    private void queryFromServer(final String address){
+    private void queryWeatherInfo(String weatherCode){
+        String address = "http://apistore.baidu.com/microservice/weather?cityid=" + weatherCode;
+        queryFromServer(address, "weatherCode");
+    }
+
+    private void queryFromServer(final String address, final String type){
         HttpUtil.sendHttpRequest(address, new HttpCallbackListener() {
             @Override
-            public void onFinish(String response) {
+            public void onFinish(final String response) {
+                if("countyCode".equals(type)){
+                    try{
+                        JSONObject jsonObject = new JSONObject(response);
+                        JSONObject countyInfo = jsonObject.getJSONObject("retData");
+                        String countyCode = countyInfo.getString("cityCode");
+                        queryWeatherInfo(countyCode);
+                    }catch (JSONException e){
+                        e.printStackTrace();
+                    }
+                }else if("weatherCode".equals(type)) {
                     Utility.handleWeatherResponse(WeatherActivity.this, response);
                     runOnUiThread(new Runnable() {
                         @Override
@@ -73,6 +93,7 @@ public class WeatherActivity extends Activity implements View.OnClickListener{
                             showWeather();
                         }
                     });
+                }
             }
 
             @Override
@@ -90,6 +111,7 @@ public class WeatherActivity extends Activity implements View.OnClickListener{
     private void showWeather(){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         cityNameText.setText(prefs.getString("city_name",""));
+        currenttemp.setText(prefs.getString("current_temp", "") + "°C");
         temp1Text.setText(prefs.getString("temp1", "") + "°C");
         temp2Text.setText(prefs.getString("temp2", "") + "°C");
         weatherDespText.setText(prefs.getString("weather_desp", ""));

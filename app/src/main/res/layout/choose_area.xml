@@ -28,7 +28,7 @@
             <EditText
                 android:id="@+id/edit_text"
                 android:layout_height="wrap_content"
-                android:hint="请输入城市拼音"/>
+                android:hint="请输入城市名称"/>
 
             <Button
                 android:id="@+id/button"
