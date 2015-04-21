@@ -21,8 +21,8 @@ public class ChooseAreaActivity extends Activity{
     private TextView titleText;
     private Button button;
     private EditText editText;
-    private boolean isFromWeatherActivity;
 
+    private boolean isFromWeatherActivity;
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         isFromWeatherActivity = getIntent().getBooleanExtra("from_weather_activity", false);

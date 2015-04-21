@@ -17,13 +17,13 @@ public class Utility {
     public static void handleWeatherResponse(Context context, String response){
         try{
             JSONObject jsonObject = new JSONObject(response);
-            JSONObject weatherInfo = jsonObject.getJSONObject("retData");
-            String cityName = weatherInfo.getString("city");
-            String temp1 = weatherInfo.getString("l_tmp");
-            String temp2 = weatherInfo.getString("h_tmp");
+            JSONObject weatherInfo = jsonObject.getJSONObject("result");
+            String cityName = weatherInfo.getString("citynm");
+            String temp1 = weatherInfo.getString("temp_low");
+            String temp2 = weatherInfo.getString("temp_high");
             String weatherDesp = weatherInfo.getString("weather");
-            String publishTime = weatherInfo.getString("time");
-            String currentTemp = weatherInfo.getString("temp");
+            String publishTime = weatherInfo.getString("week");
+            String currentTemp = weatherInfo.getString("temp_curr");
             saveWeatherInfo(context, cityName, temp1, temp2, weatherDesp, publishTime, currentTemp);
         }catch (JSONException e){
             e.printStackTrace();

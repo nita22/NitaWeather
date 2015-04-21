@@ -76,7 +76,7 @@ public class WeatherActivity extends Activity implements View.OnClickListener{
     }
 
     private void queryWeatherInfo(String weatherCode){
-        String address = "http://apistore.baidu.com/microservice/weather?cityid=" + weatherCode;
+        String address = "http://api.k780.com:88/?app=weather.today&weaid=" + weatherCode + "&appkey=13793&sign=5843962e419c8fb41baa66134acf6153&format=json";
         queryFromServer(address, "weatherCode");
     }
 
@@ -123,7 +123,7 @@ public class WeatherActivity extends Activity implements View.OnClickListener{
         temp1Text.setText(prefs.getString("temp1", "") + "°C");
         temp2Text.setText(prefs.getString("temp2", "") + "°C");
         weatherDespText.setText(prefs.getString("weather_desp", ""));
-        publishText.setText("今天" + prefs.getString("publish_time", "") + "发布");
+        publishText.setText(prefs.getString("publish_time", ""));
         currentDateText.setText(prefs.getString("current_date", ""));
         weatherInfoLayout.setVisibility(View.VISIBLE);
         cityNameText.setVisibility(View.VISIBLE);
