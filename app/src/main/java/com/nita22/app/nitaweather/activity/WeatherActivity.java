@@ -20,9 +20,6 @@ import com.nita22.app.nitaweather.util.HttpCallbackListener;
 import com.nita22.app.nitaweather.util.HttpUtil;
 import com.nita22.app.nitaweather.util.Utility;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -60,24 +57,20 @@ public class WeatherActivity extends ActionBarActivity implements SwipeRefreshLa
             publishText.setText("同步中...");
             weatherInfoLayout.setVisibility(View.INVISIBLE);
             cityNameText.setVisibility(View.INVISIBLE);
-            queryCityCode(countyName);
+            queryWeatherInfo(countyName);
         } else {
             showWeather();
         }
     }
 
-    private void queryCityCode(String countyName) {
+
+    private void queryWeatherInfo(String countyName) {
         try {
             countyName = URLEncoder.encode(countyName, "utf-8");
         } catch (UnsupportedEncodingException e1) {
             e1.printStackTrace();
         }
-        String address = "http://apistore.baidu.com/microservice/cityinfo?cityname=" + countyName;
-        queryFromServer(address, "countyCode");
-    }
-
-    private void queryWeatherInfo(String weatherCode) {
-        String address = "http://api.k780.com:88/?app=weather.today&weaid=" + weatherCode + "&appkey=13793&sign=5843962e419c8fb41baa66134acf6153&format=json";
+        String address = "https://api.thinkpage.cn/v2/weather/all.json?city=" + countyName + "&language=zh-chs&unit=c&aqi=city&key=75HF115KA5";
         queryFromServer(address, "weatherCode");
     }
 
@@ -85,24 +78,14 @@ public class WeatherActivity extends ActionBarActivity implements SwipeRefreshLa
         HttpUtil.sendHttpRequest(address, new HttpCallbackListener() {
             @Override
             public void onFinish(final String response) {
-                if ("countyCode".equals(type)) {
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        JSONObject countyInfo = jsonObject.getJSONObject("retData");
-                        String countyCode = countyInfo.getString("cityCode");
-                        queryWeatherInfo(countyCode);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                Utility.handleWeatherResponse(WeatherActivity.this, response);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showWeather();
                     }
-                } else if ("weatherCode".equals(type)) {
-                    Utility.handleWeatherResponse(WeatherActivity.this, response);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            showWeather();
-                        }
-                    });
-                }
+                });
+
             }
 
             @Override

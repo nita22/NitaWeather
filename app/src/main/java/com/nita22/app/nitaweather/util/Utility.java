@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -17,13 +18,17 @@ public class Utility {
     public static void handleWeatherResponse(Context context, String response){
         try{
             JSONObject jsonObject = new JSONObject(response);
-            JSONObject weatherInfo = jsonObject.getJSONObject("result");
-            String cityName = weatherInfo.getString("citynm");
-            String temp1 = weatherInfo.getString("temp_low");
-            String temp2 = weatherInfo.getString("temp_high");
-            String weatherDesp = weatherInfo.getString("weather");
-            String publishTime = weatherInfo.getString("week");
-            String currentTemp = weatherInfo.getString("temp_curr");
+            JSONArray weatherArray = jsonObject.getJSONArray("weather");
+            JSONObject countyInfo = weatherArray.getJSONObject(0);
+            String publishTime = countyInfo.getString("last_update");
+            String cityName = countyInfo.getString("city_name");
+            JSONObject nowWeatherInfo = countyInfo.getJSONObject("now");
+            String weatherDesp = nowWeatherInfo.getString("text");
+            String currentTemp = nowWeatherInfo.getString("temperature");
+            JSONArray futureArray = countyInfo.getJSONArray("future");
+            JSONObject futureWeatherInfo = futureArray.getJSONObject(0);
+            String temp1 = futureWeatherInfo.getString("low");
+            String temp2 = futureWeatherInfo.getString("high");
             saveWeatherInfo(context, cityName, temp1, temp2, weatherDesp, publishTime, currentTemp);
         }catch (JSONException e){
             e.printStackTrace();
