@@ -16,18 +16,19 @@ import android.widget.Toast;
 
 import com.nita22.app.nitaweather.R;
 
-public class ChooseAreaActivity extends Activity{
+public class ChooseAreaActivity extends Activity {
 
     private TextView titleText;
     private Button button;
     private EditText editText;
 
     private boolean isFromWeatherActivity;
-    protected void onCreate(Bundle savedInstanceState){
+
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         isFromWeatherActivity = getIntent().getBooleanExtra("from_weather_activity", false);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if(prefs.getBoolean("city_selected", false) && !isFromWeatherActivity){
+        if (prefs.getBoolean("city_selected", false) && !isFromWeatherActivity) {
             Intent intent = new Intent(this, WeatherActivity.class);
             startActivity(intent);
             finish();
@@ -35,9 +36,9 @@ public class ChooseAreaActivity extends Activity{
         }
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.choose_area);
-        button =(Button)findViewById(R.id.button);
-        editText = (EditText)findViewById(R.id.edit_text);
-        titleText = (TextView)findViewById(R.id.title_text);
+        button = (Button) findViewById(R.id.button);
+        editText = (EditText) findViewById(R.id.edit_text);
+        titleText = (TextView) findViewById(R.id.title_text);
         titleText.setText("中国天气");
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,15 +50,15 @@ public class ChooseAreaActivity extends Activity{
                     startActivity(intent);
                     finish();
                     return;
-                }else{
+                } else {
                     Toast.makeText(ChooseAreaActivity.this, "城市不能为空", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
-    public void onBackPressed(){
-        if(isFromWeatherActivity){
+    public void onBackPressed() {
+        if (isFromWeatherActivity) {
             Intent intent = new Intent(this, WeatherActivity.class);
             startActivity(intent);
         }
