@@ -107,7 +107,7 @@ public class WeatherActivity extends ActionBarActivity implements SwipeRefreshLa
         temp1Text.setText(prefs.getString("temp1", "") + "°C");
         temp2Text.setText(prefs.getString("temp2", "") + "°C");
         weatherDespText.setText(prefs.getString("weather_desp", ""));
-        publishText.setText(prefs.getString("publish_time", ""));
+        publishText.setText("更新时间:" + prefs.getString("publish_time", ""));
         currentDateText.setText(prefs.getString("current_date", ""));
         weatherInfoLayout.setVisibility(View.VISIBLE);
         cityNameText.setVisibility(View.VISIBLE);
