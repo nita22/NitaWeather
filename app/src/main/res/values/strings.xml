@@ -1,6 +1,17 @@
 <resources>
     <string name="app_name">NitaWeather</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">退出程序</string>
+    <string name="quit">退出程序</string>
+    <string name="open_drawer">打开抽屉</string>
+    <string name="close_drawer">关闭抽屉</string>
+    <string name="city_name">请输入城市名称</string>
+    <string name="make_sure">确认</string>
+    <string name="local_weather">中国天气</string>
+    <string name="today_weather">今天天气</string>
+    <string name="weather_future">天气预报</string>
+    <string name="toolbar_title">NitaWeather</string>
+    <string name="syncing">同步中...</string>
+    <string name="sync_failure">同步失败</string>
+    <string name="update_time">更新时间:</string>
+    <string name="change_city">changeCity</string>
 </resources>
