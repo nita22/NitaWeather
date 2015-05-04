@@ -20,6 +20,17 @@
                 android:layout_height="match_parent"
                 android:background="#27A5F9">
 
+                <TextView
+                    android:id="@+id/current_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFF"
+                    android:textSize="18sp"
+                    android:layout_alignTop="@+id/publish_text"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_alignParentStart="true" />
+
 
                 <TextView
                     android:id="@+id/publish_text"
@@ -33,42 +44,45 @@
 
                 <LinearLayout
                     android:id="@+id/weather_info_layout"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp">
 
                     <TextView
                         android:id="@+id/city_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
                         android:textColor="#fff"
-                        android:textSize="60sp" />
+                        android:textSize="40sp" />
 
-                    <TextView
-                        android:id="@+id/current_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_horizontal"
-                        android:gravity="center"
-                        android:textColor="#FFF"
-                        android:textSize="18sp" />
+                    <LinearLayout
+                        android:id="@+id/weather_des_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-                    <TextView
-                        android:id="@+id/current_temp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="80dp"
-                        android:layout_gravity="center_horizontal"
-                        android:gravity="center"
-                        android:textColor="#FFF"
-                        android:textSize="60sp" />
+                        <TextView
+                            android:id="@+id/current_temp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textColor="#FFF"
+                            android:textSize="60sp" />
+
+                        <ImageView
+                            android:id="@+id/image"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent">
+
+                        </ImageView>
+                    </LinearLayout>
+
 
                     <TextView
                         android:id="@+id/weather_desp"
                         android:layout_width="wrap_content"
                         android:layout_height="60dp"
-                        android:layout_gravity="center_horizontal"
                         android:gravity="center"
                         android:textColor="#FFF"
                         android:textSize="40sp" />
@@ -76,36 +90,54 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="60dp"
-                        android:layout_gravity="center_horizontal"
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/temp1"
+                            android:id="@+id/temp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:textColor="#FFF"
-                            android:textSize="40sp" />
+                            android:textSize="30sp" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:text="~"
-                            android:textColor="#FFF"
-                            android:textSize="40sp" />
 
-                        <TextView
-                            android:id="@+id/temp2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:textColor="#FFF"
-                            android:textSize="40sp" />
                     </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/bodytemp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="#FFF"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/humidity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="#FFF"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/wind"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="#FFF"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/quality"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="#FFF"
+                        android:textSize="18sp" />
+
                 </LinearLayout>
+
+
             </RelativeLayout>
         </ScrollView>
 

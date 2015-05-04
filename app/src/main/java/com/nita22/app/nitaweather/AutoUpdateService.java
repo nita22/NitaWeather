@@ -39,7 +39,7 @@ public class AutoUpdateService extends Service {
         com.nita22.app.nitaweather.HttpUtil.sendHttpRequest(address, new com.nita22.app.nitaweather.HttpCallbackListener() {
             @Override
             public void onFinish(String response) {
-                com.nita22.app.nitaweather.Utility.handleWeatherResponse(AutoUpdateService.this, response);
+                Utility.handleWeatherResponse(AutoUpdateService.this, response);
             }
 
             @Override
