@@ -5,11 +5,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -17,21 +15,42 @@ import android.widget.TextView;
  */
 public class WeatherFutureFragment extends Fragment {
     private View myview;
-    TextView textView1;
-    TextView textView2;
-    TextView textView3;
-    ImageView imageView;
+    TextView date1;
+    TextView text1;
+    TextView temp1;
+    TextView date2;
+    TextView text2;
+    TextView temp2;
+    TextView date3;
+    TextView text3;
+    TextView temp3;
+    TextView date4;
+    TextView text4;
+    TextView temp4;
+    TextView date5;
+    TextView text5;
+    TextView temp5;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         myview = inflater.inflate(R.layout.weather_future, container, false);
-        textView1 = (TextView) myview.findViewById(R.id.day1);
-        textView2 = (TextView) myview.findViewById(R.id.day2);
-        textView3 = (TextView) myview.findViewById(R.id.day3);
-        imageView = (ImageView) myview.findViewById(R.id.image);
-
+        date1 = (TextView) myview.findViewById(R.id.date1);
+        text1 = (TextView) myview.findViewById(R.id.text1);
+        temp1 = (TextView) myview.findViewById(R.id.temp1);
+        date2 = (TextView) myview.findViewById(R.id.date2);
+        text2 = (TextView) myview.findViewById(R.id.text2);
+        temp2 = (TextView) myview.findViewById(R.id.temp2);
+        date3 = (TextView) myview.findViewById(R.id.date3);
+        text3 = (TextView) myview.findViewById(R.id.text3);
+        temp3 = (TextView) myview.findViewById(R.id.temp3);
+        date4 = (TextView) myview.findViewById(R.id.date4);
+        text4 = (TextView) myview.findViewById(R.id.text4);
+        temp4 = (TextView) myview.findViewById(R.id.temp4);
+        date5 = (TextView) myview.findViewById(R.id.date5);
+        text5 = (TextView) myview.findViewById(R.id.text5);
+        temp5 = (TextView) myview.findViewById(R.id.temp5);
         showWeatherFuture();
 
         return myview;
@@ -39,28 +58,26 @@ public class WeatherFutureFragment extends Fragment {
 
     private void showWeatherFuture() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        textView1.setText(prefs.getString("date1", "")+"   "+prefs.getString("daytext1", "")+"   "+prefs.getString("day1temp1", "") + "°C"+"~"+prefs.getString("day1temp2", "")+ "°C");
-        textView2.setText(prefs.getString("date2", "")+"   "+prefs.getString("daytext2", "")+"   "+prefs.getString("day2temp1", "") + "°C"+"~"+prefs.getString("day2temp2", "")+ "°C");
-        textView3.setText(prefs.getString("date3", "")+"   "+prefs.getString("daytext3", "")+"   "+prefs.getString("day3temp1", "") + "°C"+"~"+prefs.getString("day3temp2", "")+ "°C");
-        String weatherCode = prefs.getString("weatherCode", "99");
-        Log.e("WeatherFutureFragment",weatherCode);
-        showImage(weatherCode);
+        date1.setText(prefs.getString("date1", ""));
+        text1.setText(prefs.getString("daytext1", ""));
+        temp1.setText(prefs.getString("day1temp1", "")+"°"+"~  "+prefs.getString("day1temp2", "")+"°");
+
+        date2.setText(prefs.getString("date2", ""));
+        text2.setText(prefs.getString("daytext2", ""));
+        temp2.setText(prefs.getString("day2temp1", "")+"°"+"~  "+prefs.getString("day2temp2", "")+"°");
+
+        date3.setText(prefs.getString("date3", ""));
+        text3.setText(prefs.getString("daytext3", ""));
+        temp3.setText(prefs.getString("day3temp1", "")+"°"+"~  "+prefs.getString("day3temp2", "")+"°");
+
+        date4.setText(prefs.getString("date4", ""));
+        text4.setText(prefs.getString("daytext4", ""));
+        temp4.setText(prefs.getString("day4temp1", "")+"°"+"~  "+prefs.getString("day4temp2", "")+"°");
+
+        date5.setText(prefs.getString("date5", ""));
+        text5.setText(prefs.getString("daytext5", ""));
+        temp5.setText(prefs.getString("day5temp1", "")+"°"+"~  "+prefs.getString("day5temp2", "")+"°");
     }
 
-    public void showImage(String weatherCode){
-        switch (weatherCode){
-            case "0":
-                imageView.setImageResource(R.drawable.weather00);
-                break;
-            case "1":
-                imageView.setImageResource(R.drawable.weather01);
-                break;
-            case "99":
-                imageView.setImageResource(R.drawable.weather99);
-                break;
-            default:
-                imageView.setImageResource(R.drawable.weather99);
-                break;
-        }
-    }
+
 }

@@ -63,6 +63,18 @@ public class Utility {
             String daytext3 = futureWeatherInfo3.getString("text");
             String date3 = futureWeatherInfo3.getString("day");
 
+            JSONObject futureWeatherInfo4 = futureArray.getJSONObject(4);
+            String day4temp1 = futureWeatherInfo4.getString("low");
+            String day4temp2 = futureWeatherInfo4.getString("high");
+            String daytext4 = futureWeatherInfo4.getString("text");
+            String date4 = futureWeatherInfo4.getString("day");
+
+            JSONObject futureWeatherInfo5 = futureArray.getJSONObject(5);
+            String day5temp1 = futureWeatherInfo5.getString("low");
+            String day5temp2 = futureWeatherInfo5.getString("high");
+            String daytext5 = futureWeatherInfo5.getString("text");
+            String date5 = futureWeatherInfo5.getString("day");
+
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy年M月d日", Locale.CHINA);
             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
             editor.putBoolean("city_selected", true);
@@ -94,6 +106,16 @@ public class Utility {
             editor.putString("day3temp2", day3temp2);
             editor.putString("daytext3", daytext3);
             editor.putString("date3", date3);
+
+            editor.putString("day4temp1", day4temp1);
+            editor.putString("day4temp2", day4temp2);
+            editor.putString("daytext4", daytext4);
+            editor.putString("date4", date4);
+
+            editor.putString("day5temp1", day5temp1);
+            editor.putString("day5temp2", day5temp2);
+            editor.putString("daytext5", daytext5);
+            editor.putString("date5", date5);
 
             editor.commit();
 

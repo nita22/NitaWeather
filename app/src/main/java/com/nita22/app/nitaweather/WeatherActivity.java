@@ -34,6 +34,7 @@ public class WeatherActivity extends ActionBarActivity implements AdapterView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         fragmentManager = getFragmentManager();
         fragment = new CurrentWeatherFragment();
         fragmentManager.beginTransaction().replace(R.id.frame_layout, fragment).commit();
