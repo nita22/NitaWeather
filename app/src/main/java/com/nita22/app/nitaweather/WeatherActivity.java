@@ -4,7 +4,6 @@ package com.nita22.app.nitaweather;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -61,7 +60,6 @@ public class WeatherActivity extends ActionBarActivity implements AdapterView.On
         };
 
         toolbar.setTitle(getString(R.string.toolbar_title));
-        toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

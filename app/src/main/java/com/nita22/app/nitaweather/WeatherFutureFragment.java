@@ -14,6 +14,7 @@ import android.widget.TextView;
  * Created by nita22 on 2015/5/2 0002.
  */
 public class WeatherFutureFragment extends Fragment {
+
     private View myview;
     TextView date1;
     TextView text1;
@@ -27,9 +28,6 @@ public class WeatherFutureFragment extends Fragment {
     TextView date4;
     TextView text4;
     TextView temp4;
-    TextView date5;
-    TextView text5;
-    TextView temp5;
 
 
     @Nullable
@@ -48,9 +46,6 @@ public class WeatherFutureFragment extends Fragment {
         date4 = (TextView) myview.findViewById(R.id.date4);
         text4 = (TextView) myview.findViewById(R.id.text4);
         temp4 = (TextView) myview.findViewById(R.id.temp4);
-        date5 = (TextView) myview.findViewById(R.id.date5);
-        text5 = (TextView) myview.findViewById(R.id.text5);
-        temp5 = (TextView) myview.findViewById(R.id.temp5);
         showWeatherFuture();
 
         return myview;
@@ -73,10 +68,6 @@ public class WeatherFutureFragment extends Fragment {
         date4.setText(prefs.getString("date4", ""));
         text4.setText(prefs.getString("daytext4", ""));
         temp4.setText(prefs.getString("day4temp1", "")+"°"+"~  "+prefs.getString("day4temp2", "")+"°");
-
-        date5.setText(prefs.getString("date5", ""));
-        text5.setText(prefs.getString("daytext5", ""));
-        temp5.setText(prefs.getString("day5temp1", "")+"°"+"~  "+prefs.getString("day5temp2", "")+"°");
     }
 
 

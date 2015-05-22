@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,10 +30,8 @@ public class CurrentWeatherFragment extends Fragment implements SwipeRefreshLayo
     private TextView temp1;
     private TextView currentDateText;
     private TextView currenttemp;
-    private TextView bodytemp;
     private TextView humidity;
     private TextView wind;
-    private TextView quality;
     private SwipeRefreshLayout swipeLayout;
     private ImageView imageView;
 
@@ -48,10 +47,8 @@ public class CurrentWeatherFragment extends Fragment implements SwipeRefreshLayo
         temp1 = (TextView) myview.findViewById(R.id.temp);
         currentDateText = (TextView) myview.findViewById(R.id.current_date);
         currenttemp = (TextView) myview.findViewById(R.id.current_temp);
-        bodytemp = (TextView) myview.findViewById(R.id.bodytemp);
         humidity = (TextView) myview.findViewById(R.id.humidity);
         wind = (TextView) myview.findViewById(R.id.wind);
-        quality = (TextView) myview.findViewById(R.id.quality);
         imageView = (ImageView) myview.findViewById(R.id.image);
 
         swipeLayout.setOnRefreshListener(this);
@@ -65,7 +62,7 @@ public class CurrentWeatherFragment extends Fragment implements SwipeRefreshLayo
             publishText.setText(getString(R.string.syncing));
             weatherInfoLayout.setVisibility(View.INVISIBLE);
             cityNameText.setVisibility(View.INVISIBLE);
-            queryWeatherInfo(countyName);
+            queryCityCode(countyName);
         } else {
             showWeather();
         }
@@ -73,27 +70,37 @@ public class CurrentWeatherFragment extends Fragment implements SwipeRefreshLayo
         return myview;
     }
 
-    private void queryWeatherInfo(String countyName) {
+    private void queryCityCode(String countyName) {
         try {
             countyName = URLEncoder.encode(countyName, "utf-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        String address = "https://api.thinkpage.cn/v2/weather/all.json?city=" + countyName + "&language=zh-chs&unit=c&aqi=city&key=75HF115KA5";
-        queryFromServer(address);
+        String address = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20geo.places%20where%20text%3D%22" + countyName + "\"&format=json";
+        queryFromServer(address, "countyCode");
     }
 
-    private void queryFromServer(final String address) {
+    private void queryWeatherInfo(String countyCode) {
+        String address = "http://weather.yahooapis.com/forecastrss?w=" + countyCode + "&u=c";
+        queryFromServer(address, "countyName");
+    }
+
+    private void queryFromServer(final String address, final String type) {
         HttpUtil.sendHttpRequest(address, new HttpCallbackListener() {
             @Override
             public void onFinish(final String response) {
-                Utility.handleWeatherResponse(getActivity(), response);
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        showWeather();
-                    }
-                });
+                if ("countyCode".equals(type)) {
+                    String cityCode = Utility.handlecitycode(response);
+                    queryWeatherInfo(cityCode);
+                } else if ("countyName".equals(type)) {
+                    Utility.handleWeatherResponse(getActivity(), response);
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showWeather();
+                        }
+                    });
+                }
             }
 
             @Override
@@ -111,16 +118,24 @@ public class CurrentWeatherFragment extends Fragment implements SwipeRefreshLayo
     private void showWeather() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         cityNameText.setText(prefs.getString("city_name", ""));
+        Log.e("CurrentWeatherFragment", prefs.getString("city_name", ""));
+        Log.e("CurrentWeatherFragment", prefs.getString("current_temp", ""));
+        Log.e("CurrentWeatherFragment", prefs.getString("day0temp1", ""));
+        Log.e("CurrentWeatherFragment", prefs.getString("day0temp2", ""));
+        Log.e("CurrentWeatherFragment", prefs.getString("weather_desp", ""));
+        Log.e("CurrentWeatherFragment", prefs.getString("publish_time", ""));
+        Log.e("CurrentWeatherFragment", prefs.getString("current_date", ""));
+        Log.e("CurrentWeatherFragment", prefs.getString("humidity", ""));
+        Log.e("CurrentWeatherFragment", prefs.getString("windSpeed", ""));
+        Log.e("CurrentWeatherFragment", prefs.getString("weatherCode", ""));
         currenttemp.setText(prefs.getString("current_temp", "") + "°");
-        temp1.setText(prefs.getString("temp1", "") + "°" + "~  " + prefs.getString("temp2", "") + "°");
+        temp1.setText(prefs.getString("day0temp1", "") + "°" + "~  " + prefs.getString("day0temp2", "") + "°");
         weatherDespText.setText(prefs.getString("weather_desp", ""));
         publishText.setText(getString(R.string.update_time) + prefs.getString("publish_time", ""));
         currentDateText.setText(prefs.getString("current_date", ""));
-        bodytemp.setText("体感：" + prefs.getString("bodyTemp", "") + "°");
         humidity.setText("降水概率:" + prefs.getString("humidity", "") + "%");
-        wind.setText(prefs.getString("windDirection", "") + "风" + prefs.getString("windSpeed", "") + "km/h");
-        quality.setText("空气质量:" + prefs.getString("quality", ""));
-        showImage(prefs.getString("weatherCode", "99"));
+        wind.setText("风速:" + prefs.getString("windSpeed", "") + "km/h");
+        showImage(prefs.getString("weatherCode", "3200"));
         weatherInfoLayout.setVisibility(View.VISIBLE);
         cityNameText.setVisibility(View.VISIBLE);
         swipeLayout.setRefreshing(false);
@@ -139,123 +154,150 @@ public class CurrentWeatherFragment extends Fragment implements SwipeRefreshLayo
     public void showImage(String weatherCode) {
         switch (weatherCode) {
             case "0":
-                imageView.setImageResource(R.drawable.weather00);
-                break;
-            case "1":
-                imageView.setImageResource(R.drawable.weather01);
-                break;
-            case "2":
-                imageView.setImageResource(R.drawable.weather02);
-                break;
-            case "3":
-                imageView.setImageResource(R.drawable.weather03);
-                break;
-            case "4":
-                imageView.setImageResource(R.drawable.weather04);
-                break;
-            case "5":
-                imageView.setImageResource(R.drawable.weather05);
-                break;
-            case "6":
-                imageView.setImageResource(R.drawable.weather06);
-                break;
-            case "7":
-                imageView.setImageResource(R.drawable.weather07);
-                break;
-            case "8":
-                imageView.setImageResource(R.drawable.weather08);
-                break;
-            case "9":
-                imageView.setImageResource(R.drawable.weather09);
-                break;
-            case "10":
-                imageView.setImageResource(R.drawable.weather10);
-                break;
-            case "11":
-                imageView.setImageResource(R.drawable.weather11);
-                break;
-            case "12":
-                imageView.setImageResource(R.drawable.weather12);
-                break;
-            case "13":
-                imageView.setImageResource(R.drawable.weather13);
-                break;
-            case "14":
-                imageView.setImageResource(R.drawable.weather14);
-                break;
-            case "15":
-                imageView.setImageResource(R.drawable.weather15);
-                break;
-            case "16":
-                imageView.setImageResource(R.drawable.weather16);
-                break;
-            case "17":
-                imageView.setImageResource(R.drawable.weather17);
-                break;
-            case "18":
-                imageView.setImageResource(R.drawable.weather18);
-                break;
-            case "19":
-                imageView.setImageResource(R.drawable.weather19);
-                break;
-            case "20":
-                imageView.setImageResource(R.drawable.weather20);
-                break;
-            case "21":
-                imageView.setImageResource(R.drawable.weather21);
-                break;
-            case "22":
-                imageView.setImageResource(R.drawable.weather22);
-                break;
-            case "23":
-                imageView.setImageResource(R.drawable.weather23);
-                break;
-            case "24":
-                imageView.setImageResource(R.drawable.weather24);
-                break;
-            case "25":
-                imageView.setImageResource(R.drawable.weather25);
-                break;
-            case "26":
-                imageView.setImageResource(R.drawable.weather26);
-                break;
-            case "27":
-                imageView.setImageResource(R.drawable.weather27);
-                break;
-            case "28":
-                imageView.setImageResource(R.drawable.weather28);
-                break;
-            case "29":
-                imageView.setImageResource(R.drawable.weather29);
-                break;
-            case "30":
-                imageView.setImageResource(R.drawable.weather30);
-                break;
-            case "31":
-                imageView.setImageResource(R.drawable.weather31);
-                break;
-            case "32":
-                imageView.setImageResource(R.drawable.weather32);
-                break;
-            case "33":
-                imageView.setImageResource(R.drawable.weather33);
-                break;
-            case "34":
-                imageView.setImageResource(R.drawable.weather34);
-                break;
-            case "35":
-                imageView.setImageResource(R.drawable.weather35);
-                break;
-            case "36":
                 imageView.setImageResource(R.drawable.weather36);
                 break;
-            case "37":
+            case "1":
+                imageView.setImageResource(R.drawable.weather35);
+                break;
+            case "2":
+                imageView.setImageResource(R.drawable.weather34);
+                break;
+            case "3":
+                imageView.setImageResource(R.drawable.weather18);
+                break;
+            case "4":
+                imageView.setImageResource(R.drawable.weather16);
+                break;
+            case "5":
+                imageView.setImageResource(R.drawable.weather20);
+                break;
+            case "6":
+                imageView.setImageResource(R.drawable.weather20);
+                break;
+            case "7":
+                imageView.setImageResource(R.drawable.weather20);
+                break;
+            case "8":
+                imageView.setImageResource(R.drawable.weather19);
+                break;
+            case "9":
+                imageView.setImageResource(R.drawable.weather13);
+                break;
+            case "10":
+                imageView.setImageResource(R.drawable.weather19);
+                break;
+            case "11":
+                imageView.setImageResource(R.drawable.weather10);
+                break;
+            case "12":
+                imageView.setImageResource(R.drawable.weather10);
+                break;
+            case "13":
+                imageView.setImageResource(R.drawable.weather21);
+                break;
+            case "14":
+                imageView.setImageResource(R.drawable.weather22);
+                break;
+            case "15":
+                imageView.setImageResource(R.drawable.weather23);
+                break;
+            case "16":
+                imageView.setImageResource(R.drawable.weather24);
+                break;
+            case "17":
+                imageView.setImageResource(R.drawable.weather12);
+                break;
+            case "18":
+                imageView.setImageResource(R.drawable.weather12);
+                break;
+            case "19":
+                imageView.setImageResource(R.drawable.weather26);
+                break;
+            case "20":
+                imageView.setImageResource(R.drawable.weather30);
+                break;
+            case "21":
+                imageView.setImageResource(R.drawable.weather31);
+                break;
+            case "22":
+                imageView.setImageResource(R.drawable.weather27);
+                break;
+            case "23":
+                imageView.setImageResource(R.drawable.weather33);
+                break;
+            case "24":
+                imageView.setImageResource(R.drawable.weather32);
+                break;
+            case "25":
                 imageView.setImageResource(R.drawable.weather37);
                 break;
-            case "38":
+            case "26":
+                imageView.setImageResource(R.drawable.weather04);
+                break;
+            case "27":
+                imageView.setImageResource(R.drawable.weather08);
+                break;
+            case "28":
+                imageView.setImageResource(R.drawable.weather07);
+                break;
+            case "29":
+                imageView.setImageResource(R.drawable.weather06);
+                break;
+            case "30":
+                imageView.setImageResource(R.drawable.weather05);
+                break;
+            case "31":
+                imageView.setImageResource(R.drawable.weather01);
+                break;
+            case "32":
+                imageView.setImageResource(R.drawable.weather00);
+                break;
+            case "33":
+                imageView.setImageResource(R.drawable.weather03);
+                break;
+            case "34":
+                imageView.setImageResource(R.drawable.weather02);
+                break;
+            case "35":
+                imageView.setImageResource(R.drawable.weather12);
+                break;
+            case "36":
                 imageView.setImageResource(R.drawable.weather38);
                 break;
-            case "99":
+            case "37":
+                imageView.setImageResource(R.drawable.weather11);
+                break;
+            case "38":
+                imageView.setImageResource(R.drawable.weather11);
+                break;
+            case "39":
+                imageView.setImageResource(R.drawable.weather11);
+                break;
+            case "40":
+                imageView.setImageResource(R.drawable.weather10);
+                break;
+            case "41":
+                imageView.setImageResource(R.drawable.weather24);
+                break;
+            case "42":
+                imageView.setImageResource(R.drawable.weather10);
+                break;
+            case "43":
+                imageView.setImageResource(R.drawable.weather24);
+                break;
+            case "44":
+                imageView.setImageResource(R.drawable.weather07);
+                break;
+            case "45":
+                imageView.setImageResource(R.drawable.weather11);
+                break;
+            case "46":
+                imageView.setImageResource(R.drawable.weather21);
+                break;
+            case "47":
+                imageView.setImageResource(R.drawable.weather11);
+                break;
+            case "3200":
                 imageView.setImageResource(R.drawable.weather99);
                 break;
             default:
