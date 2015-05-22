@@ -4,7 +4,7 @@
     <string name="quit">退出程序</string>
     <string name="open_drawer">打开抽屉</string>
     <string name="close_drawer">关闭抽屉</string>
-    <string name="city_name">请输入城市名称</string>
+    <string name="city_name">请手动输入城市名称</string>
     <string name="make_sure">确认</string>
     <string name="local_weather">中国天气</string>
     <string name="today_weather">今天天气</string>

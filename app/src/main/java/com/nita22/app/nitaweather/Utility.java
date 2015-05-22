@@ -19,6 +19,19 @@ import java.util.Locale;
 
 public class Utility {
 
+    public static String handleLocation(String response) {
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            JSONObject result = jsonObject.getJSONObject("result");
+            JSONObject addressComponent = result.getJSONObject("addressComponent");
+            String cityName = addressComponent.getString("city");
+            return cityName;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static String handlecitycode(String response) {
         String woeId;
         try {
@@ -47,6 +60,9 @@ public class Utility {
             XmlPullParser parser = factory.newPullParser();
             parser.setInput(new StringReader(response));
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy年M月d日", Locale.CHINA);
+            SimpleDateFormat predict = new SimpleDateFormat("dd MMM yyyy", Locale.US);
+            SimpleDateFormat predict1 = new SimpleDateFormat("MMM dd");
+
             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
 
             int eventType = parser.next();
@@ -65,8 +81,8 @@ public class Utility {
                     editor.putString("weather_desp", text);
                     String[] array = date.split("C");
                     String date1 = array[0];
-                    SimpleDateFormat sdf0 = new SimpleDateFormat("EEE, dd MMM yyyy KK:mm aa",Locale.US);
-                    Date publishTime = sdf0.parse(date1);
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy KK:mm aa", Locale.US);
+                    Date publishTime = dateFormat.parse(date1);
                     SimpleDateFormat sdf1 = new SimpleDateFormat("KK:mm aa");
                     editor.putString("publish_time", sdf1.format(publishTime));
                     editor.putString("current_date", sdf.format(new Date()));
@@ -91,49 +107,53 @@ public class Utility {
                             break;
                         case 1:
                             String date1 = parser.getAttributeValue(null, "date");
+                            Date publishTime1 = predict.parse(date1);
                             String low1 = parser.getAttributeValue(null, "low");
                             String high1 = parser.getAttributeValue(null, "high");
                             String text1 = parser.getAttributeValue(null, "text");
                             editor.putString("day1temp1", low1);
                             editor.putString("day1temp2", high1);
                             editor.putString("daytext1", text1);
-                            editor.putString("date1", date1);
+                            editor.putString("date1", predict1.format(publishTime1));
                             Log.e("Utility", "1");
                             i++;
                             break;
                         case 2:
                             String date2 = parser.getAttributeValue(null, "date");
+                            Date publishTime2 = predict.parse(date2);
                             String low2 = parser.getAttributeValue(null, "low");
                             String high2 = parser.getAttributeValue(null, "high");
                             String text2 = parser.getAttributeValue(null, "text");
                             editor.putString("day2temp1", low2);
                             editor.putString("day2temp2", high2);
                             editor.putString("daytext2", text2);
-                            editor.putString("date2", date2);
+                            editor.putString("date2", predict1.format(publishTime2));
                             Log.e("Utility", "2");
                             i++;
                             break;
                         case 3:
                             String date3 = parser.getAttributeValue(null, "date");
+                            Date publishTime3 = predict.parse(date3);
                             String low3 = parser.getAttributeValue(null, "low");
                             String high3 = parser.getAttributeValue(null, "high");
                             String text3 = parser.getAttributeValue(null, "text");
                             editor.putString("day3temp1", low3);
                             editor.putString("day3temp2", high3);
                             editor.putString("daytext3", text3);
-                            editor.putString("date3", date3);
+                            editor.putString("date3", predict1.format(publishTime3));
                             Log.e("Utility", "3");
                             i++;
                             break;
                         case 4:
                             String date4 = parser.getAttributeValue(null, "date");
+                            Date publishTime4 = predict.parse(date4);
                             String low4 = parser.getAttributeValue(null, "low");
                             String high4 = parser.getAttributeValue(null, "high");
                             String text4 = parser.getAttributeValue(null, "text");
                             editor.putString("day4temp1", low4);
                             editor.putString("day4temp2", high4);
                             editor.putString("daytext4", text4);
-                            editor.putString("date4", date4);
+                            editor.putString("date4", predict1.format(publishTime4));
                             Log.e("Utility", "4");
                             i = 0;
                             break;

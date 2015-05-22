@@ -33,14 +33,12 @@ public class WeatherActivity extends ActionBarActivity implements AdapterView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         fragmentManager = getFragmentManager();
         fragment = new CurrentWeatherFragment();
-        fragmentManager.beginTransaction().replace(R.id.frame_layout, fragment).commit();
+        fragmentManager.beginTransaction().add(R.id.frame_layout, fragment).commit();
         listView = (ListView) findViewById(R.id.list_view);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         toolbar = (Toolbar) findViewById(R.id.tl_custom);
-
 
         initArrayList();
         arrayAdapter = new ArrayAdapter<String>(WeatherActivity.this, android.R.layout.simple_list_item_1, arrayList);
@@ -62,7 +60,6 @@ public class WeatherActivity extends ActionBarActivity implements AdapterView.On
         toolbar.setTitle(getString(R.string.toolbar_title));
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         actionBarDrawerToggle.syncState();
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
     }

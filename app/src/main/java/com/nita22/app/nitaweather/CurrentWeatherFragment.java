@@ -22,6 +22,7 @@ import java.net.URLEncoder;
  * Created by nita22 on 2015/5/1 0001.
  */
 public class CurrentWeatherFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+
     private View myview;
     private LinearLayout weatherInfoLayout;
     private TextView cityNameText;
@@ -58,11 +59,17 @@ public class CurrentWeatherFragment extends Fragment implements SwipeRefreshLayo
                 android.R.color.holo_red_light);
 
         String countyName = getActivity().getIntent().getStringExtra("county_name");
+        Double latitude = getActivity().getIntent().getDoubleExtra("latitude", 0.0);
+        Double longitude = getActivity().getIntent().getDoubleExtra("longitude", 0.0);
         if (!TextUtils.isEmpty(countyName)) {
             publishText.setText(getString(R.string.syncing));
             weatherInfoLayout.setVisibility(View.INVISIBLE);
             cityNameText.setVisibility(View.INVISIBLE);
             queryCityCode(countyName);
+        } else if (latitude != 0.0&&longitude!=0.0) {
+            String address = "http://api.map.baidu.com/geocoder/v2/?ak=pmCgmADsAsD9rEXkqWNcTzjd&location="+latitude+","+longitude+"&output=json&pois=1";
+            Log.e("CurrentWeatherFragment",address);
+            queryFromServer(address, "location");
         } else {
             showWeather();
         }
@@ -100,6 +107,9 @@ public class CurrentWeatherFragment extends Fragment implements SwipeRefreshLayo
                             showWeather();
                         }
                     });
+                }else if ("location".equals(type)) {
+                    String cityName = Utility.handleLocation(response);
+                    queryCityCode(cityName);
                 }
             }
 
@@ -118,16 +128,6 @@ public class CurrentWeatherFragment extends Fragment implements SwipeRefreshLayo
     private void showWeather() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         cityNameText.setText(prefs.getString("city_name", ""));
-        Log.e("CurrentWeatherFragment", prefs.getString("city_name", ""));
-        Log.e("CurrentWeatherFragment", prefs.getString("current_temp", ""));
-        Log.e("CurrentWeatherFragment", prefs.getString("day0temp1", ""));
-        Log.e("CurrentWeatherFragment", prefs.getString("day0temp2", ""));
-        Log.e("CurrentWeatherFragment", prefs.getString("weather_desp", ""));
-        Log.e("CurrentWeatherFragment", prefs.getString("publish_time", ""));
-        Log.e("CurrentWeatherFragment", prefs.getString("current_date", ""));
-        Log.e("CurrentWeatherFragment", prefs.getString("humidity", ""));
-        Log.e("CurrentWeatherFragment", prefs.getString("windSpeed", ""));
-        Log.e("CurrentWeatherFragment", prefs.getString("weatherCode", ""));
         currenttemp.setText(prefs.getString("current_temp", "") + "°");
         temp1.setText(prefs.getString("day0temp1", "") + "°" + "~  " + prefs.getString("day0temp2", "") + "°");
         weatherDespText.setText(prefs.getString("weather_desp", ""));

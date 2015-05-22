@@ -3,6 +3,7 @@
     package="com.nita22.app.nitaweather" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
         android:allowBackup="true"
@@ -11,7 +12,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".ChooseAreaActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,10 +21,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".WeatherActivity" />
-
-        <service android:name=".AutoUpdateService" />
-
-        <receiver android:name=".AutoUpdateReceiver" />
 
     </application>
 
