@@ -7,7 +7,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,7 +67,6 @@ public class CurrentWeatherFragment extends Fragment implements SwipeRefreshLayo
             queryCityCode(countyName);
         } else if (latitude != 0.0&&longitude!=0.0) {
             String address = "http://api.map.baidu.com/geocoder/v2/?ak=pmCgmADsAsD9rEXkqWNcTzjd&location="+latitude+","+longitude+"&output=json&pois=1";
-            Log.e("CurrentWeatherFragment",address);
             queryFromServer(address, "location");
         } else {
             showWeather();

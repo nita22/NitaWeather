@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:id="@+id/frame_future"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/frame_future">
+    android:orientation="vertical">
 
 
     <RelativeLayout
@@ -19,150 +19,75 @@
 
                 <TextView
                     android:id="@+id/date1"
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_weight="1"
-                    android:textSize="20sp"
-                    android:gravity="center"
-                    android:textColor="#FFF" />
+                    style="@style/PredictTextView" />
 
                 <TextView
                     android:id="@+id/text1"
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_weight="2"
-                    android:gravity="center"
-                    android:textSize="20sp"
-                    android:textColor="#FFF" />
+                    style="@style/PredictTextView" />
 
                 <TextView
                     android:id="@+id/temp1"
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_weight="2"
-                    android:gravity="center"
-                    android:textSize="20sp"
-                    android:textColor="#FFF" />
+                    style="@style/PredictTextView" />
             </TableRow>
 
             <TableRow>
 
                 <TextView
                     android:id="@+id/date2"
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_weight="1"
-                    android:textSize="20sp"
-                    android:gravity="center"
-                    android:textColor="#FFF" />
+                    style="@style/PredictTextView" />
 
                 <TextView
                     android:id="@+id/text2"
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_weight="2"
-                    android:gravity="center"
-                    android:textSize="20sp"
-                    android:textColor="#FFF" />
+                    style="@style/PredictTextView" />
 
                 <TextView
                     android:id="@+id/temp2"
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_weight="2"
-                    android:gravity="center"
-                    android:textSize="20sp"
-                    android:textColor="#FFF" />
+                    style="@style/PredictTextView" />
             </TableRow>
 
             <TableRow>
 
                 <TextView
                     android:id="@+id/date3"
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_weight="1"
-                    android:textSize="20sp"
-                    android:gravity="center"
-                    android:textColor="#FFF" />
+                    style="@style/PredictTextView" />
 
                 <TextView
                     android:id="@+id/text3"
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_weight="2"
-                    android:gravity="center"
-                    android:textSize="20sp"
-                    android:textColor="#FFF" />
+                    style="@style/PredictTextView" />
 
                 <TextView
                     android:id="@+id/temp3"
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_weight="2"
-                    android:gravity="center"
-                    android:textSize="20sp"
-                    android:textColor="#FFF" />
+                    style="@style/PredictTextView" />
             </TableRow>
 
             <TableRow>
 
                 <TextView
                     android:id="@+id/date4"
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_weight="1"
-                    android:textSize="20sp"
-                    android:gravity="center"
-                    android:textColor="#FFF" />
+                    style="@style/PredictTextView" />
 
                 <TextView
                     android:id="@+id/text4"
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_weight="2"
-                    android:gravity="center"
-                    android:textSize="20sp"
-                    android:textColor="#FFF" />
+                    style="@style/PredictTextView" />
 
                 <TextView
                     android:id="@+id/temp4"
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_weight="2"
-                    android:gravity="center"
-                    android:textSize="20sp"
-                    android:textColor="#FFF" />
+                    style="@style/PredictTextView" />
             </TableRow>
 
             <TableRow>
 
                 <TextView
                     android:id="@+id/date5"
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_weight="1"
-                    android:textSize="20sp"
-                    android:gravity="center"
-                    android:textColor="#FFF" />
+                    style="@style/PredictTextView" />
 
                 <TextView
                     android:id="@+id/text5"
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_weight="2"
-                    android:gravity="center"
-                    android:textSize="20sp"
-                    android:textColor="#FFF" />
+                    style="@style/PredictTextView" />
 
                 <TextView
                     android:id="@+id/temp5"
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_weight="2"
-                    android:gravity="center"
-                    android:textSize="20sp"
-                    android:textColor="#FFF" />
+                    style="@style/PredictTextView" />
 
             </TableRow>
 

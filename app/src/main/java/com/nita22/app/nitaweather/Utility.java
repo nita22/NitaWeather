@@ -4,7 +4,6 @@ package com.nita22.app.nitaweather;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -102,7 +101,6 @@ public class Utility {
                             String high = parser.getAttributeValue(null, "high");
                             editor.putString("day0temp1", low);
                             editor.putString("day0temp2", high);
-                            Log.e("Utility", "0");
                             i++;
                             break;
                         case 1:
@@ -115,7 +113,6 @@ public class Utility {
                             editor.putString("day1temp2", high1);
                             editor.putString("daytext1", text1);
                             editor.putString("date1", predict1.format(publishTime1));
-                            Log.e("Utility", "1");
                             i++;
                             break;
                         case 2:
@@ -128,7 +125,6 @@ public class Utility {
                             editor.putString("day2temp2", high2);
                             editor.putString("daytext2", text2);
                             editor.putString("date2", predict1.format(publishTime2));
-                            Log.e("Utility", "2");
                             i++;
                             break;
                         case 3:
@@ -141,7 +137,6 @@ public class Utility {
                             editor.putString("day3temp2", high3);
                             editor.putString("daytext3", text3);
                             editor.putString("date3", predict1.format(publishTime3));
-                            Log.e("Utility", "3");
                             i++;
                             break;
                         case 4:
@@ -154,7 +149,6 @@ public class Utility {
                             editor.putString("day4temp2", high4);
                             editor.putString("daytext4", text4);
                             editor.putString("date4", predict1.format(publishTime4));
-                            Log.e("Utility", "4");
                             i = 0;
                             break;
                     }

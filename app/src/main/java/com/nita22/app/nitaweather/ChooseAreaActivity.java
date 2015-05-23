@@ -28,6 +28,7 @@ public class ChooseAreaActivity extends ActionBarActivity {
     private LocationManager locationManager;
     private String provider;
     private Location location;
+    private TextView textHint;
 
     private boolean isFromWeatherActivity;
 
@@ -45,6 +46,10 @@ public class ChooseAreaActivity extends ActionBarActivity {
         button = (Button) findViewById(R.id.button);
         editText = (EditText) findViewById(R.id.edit_text);
         titleText = (TextView) findViewById(R.id.title_text);
+        textHint= (TextView) findViewById(R.id.text_hint);
+        if(isFromWeatherActivity){
+            textHint.setText("查询另一个城市天气");
+        }
         gps = (ImageButton) findViewById(R.id.search_location);
         gps.setClickable(true);
         gps.setOnClickListener(new View.OnClickListener() {
@@ -54,6 +59,10 @@ public class ChooseAreaActivity extends ActionBarActivity {
                 List<String> providerList = locationManager.getProviders(true);
                 if (providerList.contains(LocationManager.GPS_PROVIDER)) {
                     provider = LocationManager.GPS_PROVIDER;
+                    location = locationManager.getLastKnownLocation(provider);
+                    if (location == null) {
+                        provider = LocationManager.NETWORK_PROVIDER;
+                    }
                 } else if (providerList.contains(LocationManager.NETWORK_PROVIDER)) {
                     provider = LocationManager.NETWORK_PROVIDER;
                 } else {
@@ -63,6 +72,8 @@ public class ChooseAreaActivity extends ActionBarActivity {
                 location = locationManager.getLastKnownLocation(provider);
                 if (location != null) {
                     sendLocation();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Location is null", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -94,6 +105,7 @@ public class ChooseAreaActivity extends ActionBarActivity {
     }
 
     public void sendLocation() {
+        Toast.makeText(this, "Sending Location", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(ChooseAreaActivity.this, WeatherActivity.class);
         intent.putExtra("latitude", location.getLatitude());
         intent.putExtra("longitude", location.getLongitude());
