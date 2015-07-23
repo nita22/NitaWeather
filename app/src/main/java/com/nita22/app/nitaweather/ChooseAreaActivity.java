@@ -48,7 +48,7 @@ public class ChooseAreaActivity extends ActionBarActivity {
         titleText = (TextView) findViewById(R.id.title_text);
         textHint= (TextView) findViewById(R.id.text_hint);
         if(isFromWeatherActivity){
-            textHint.setText("查询另一个城市天气");
+            textHint.setText(R.string.find_another_city);
         }
         gps = (ImageButton) findViewById(R.id.search_location);
         gps.setClickable(true);

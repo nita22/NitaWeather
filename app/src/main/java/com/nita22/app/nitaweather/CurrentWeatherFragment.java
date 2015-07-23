@@ -304,3 +304,5 @@ public class CurrentWeatherFragment extends Fragment implements SwipeRefreshLayo
         }
     }
 }
+
+
